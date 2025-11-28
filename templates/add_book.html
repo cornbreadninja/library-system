@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add a New Book</h1>
+
+<form method="POST">
+
+    <label>Barcode Number</label><br>
+    <input type="text" name="barcode" value="{{barcode}}" required autofocus><br>
+	
+    <label>Title</label><br>
+    <input type="text" name="title" required><br>
+
+    <label>Author</label><br>
+    <input type="text" name="author" required><br>
+
+    <label>Year of Publication</label><br>
+    <input type="number" name="year"><br>
+
+    <label>Genre</label><br>
+    <input type="text" name="genre"><br>
+
+
+    <button type="submit">Add Book</button>
+</form>
+{% endblock %}

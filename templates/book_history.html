@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Checkout History</h1>
+
+<h2>{{ book.title }}</h2>
+<p><strong>Author:</strong> {{ book.author }}</p>
+<p><strong>Barcode:</strong> {{ book.barcode_number }}</p>
+<p><strong>Status:</strong> {{ status }}</p>
+
+<hr>
+
+<div>
+    <form action="{{ url_for('checkout_book', book_id=book.id) }}" method="POST" style="display:inline;">
+        <button type="submit"
+                {% if status == "Checked Out" %}disabled{% endif %}>
+            📕 Check Out
+        </button>
+    </form>
+
+    <form action="{{ url_for('checkin_book', book_id=book.id) }}" method="POST" style="display:inline;">
+        <button type="submit"
+                {% if status == "Available" %}disabled{% endif %}>
+            📗 Check In
+        </button>
+    </form>
+</div>
+
+<hr>
+
+{% if events %}
+<table>
+    <tr>
+        <th>Event</th>
+        <th>Date / Time</th>
+    </tr>
+
+    {% for event in events %}
+    <tr>
+        <td>
+            {% if event.event_type == "checkout" %}
+                📕 Checked Out
+            {% else %}
+                📗 Checked In
+            {% endif %}
+        </td>
+        <td>{{ event.timestamp }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>No checkout history available for this book.</p>
+{% endif %}
+
+<br>
+<a href="{{ url_for('index') }}">⬅ Back to book list</a>
+{% endblock %}

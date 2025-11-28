@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Book Storage System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+        }
+
+        h1, h2 {
+            margin-bottom: 10px;
+        }
+
+        .nav {
+            margin-bottom: 20px;
+        }
+
+        .nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+		a {
+			text-decoration: none;
+		}
+		
+		th a {
+			text-decoration: underline;
+		}
+		
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+		/* Highlight rows where the 'genre' cell starts with "History" */
+		tr:has(td.genre[data-value^="History"]) {
+			background-color: palegreen;
+		}
+
+		tr:has(td.genre[data-value^="Sibling Relations"]) {
+			background-color: plum;
+		}
+	
+		tr:has(td.genre[data-value^="Philosophy"]) {
+			background-color: powderblue;
+		}	
+		
+		
+		tr:has(td.genre[data-value^="Fiction -- Short stories"]) {
+			background-color: lightgreen;
+		}
+		
+		tr:has(td.genre[data-value="Fiction"]) {
+			background-color: violet;
+		}
+		
+		tr:has(td.genre[data-value="Costume -- History"]) {
+			background-color: aquamarine;
+		}
+
+		tr:has(td.genre[data-value^="Psychology"]) {
+			background-color: hotpink;
+		}
+		
+		tr:has(td.genre[data-value^="Sociology"]) {
+			background-color: mediumturquoise;
+		}
+		
+		
+		tr:has(td.genre[data-value^="Art"]) {
+			background-color: pink;
+		}
+
+		tr:has(td.genre[data-value^="True Crime"]) {
+			background-color: lightcoral;
+		}
+				
+		tr:has(td.genre[data-value^="Biography"]) {
+			background-color: lavender;
+		}
+		
+
+		tr:has(td.genre[data-value^="Memoir"]) {
+			background-color: mediumturquoise;
+		}
+	
+		tr:has(td.genre[data-value^="Technology"]) {
+			background-color: springgreen;
+		}
+		
+		tr:has(td.genre[data-value^="Science Fiction"]) {
+			background-color: mintcream;
+		}
+	
+        input {
+            padding: 6px;
+            margin: 5px 0;
+            width: 300px;
+        }
+
+        button {
+            padding: 8px 15px;
+            margin-top: 10px;
+        }
+		
+		a:visited, a{
+		  color:black;
+		}
+		
+		.goto_top_link {
+			position:fixed;
+			bottom:4px;
+			right:4px;
+		}
+    </style>
+</head>
+<body>
+
+<div class="nav" id="top">
+    <a href="/">View Books</a>
+    <a href="/add">Add Book</a>
+
+		<form action="{{ url_for('search_books') }}" method="GET" style="margin-bottom:20px;">
+		<input type="text" name="query" placeholder="Search by title, author, genre, year, or barcode" required>
+		<button type="submit">🔍 Search</button>
+	</form>
+
+{% if error %}
+<p style="color:red;">{{ error }}</p>
+{% endif %}
+</div>
+
+{% block content %}
+{% endblock %}
+
+</body>
+</html>

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if books %}
+{% if state=="checked out" %}
+<h1>Checked Out Books</h1>
+<p>Total checked out: {{ books|length }}</p>
+{% else %}
+<h1>Available Books</h1>
+<p>Total available: {{ books|length }}</p>
+{% endif %}
+
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Year</th>
+        <th>Genre</th>
+        <th>Barcode</th>
+    </tr>
+
+    {% for book in books %}
+    <tr>
+        <td>
+            <a href="{{ url_for('book_history', book_id=book.id) }}">
+                {{ book.title }}
+            </a>
+        </td>
+        <td>
+            <a href="{{ url_for('author_page', author_name=book.author) }}">
+                {{ book.author }}
+            </a>
+        </td>
+        <td>{{ book.year_of_publication }}</td>
+        <td>{{ book.genre }}</td>
+        <td>{{ book.barcode_number }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% else %}
+<p>No books are currently checked out 🎉</p>
+{% endif %}
+
+<p><a href="{{ url_for('index') }}">← Back to all books</a></p>
+{% endblock %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>My Book Collection</h1>
+
+<h3>Total books: {{ total_books }} |
+    <a href="{{ url_for('checked_out_books') }}">Checked out: {{ checked_out_books }}</a> |
+    <a href="{{ url_for('checked_out_books', state='available') }}">Available: {{ available_books }}</a></h3>
+	
+<!-- SEARCH FORM -->
+<!-- <form action="{{ url_for('search_books') }}" method="POST" style="margin-bottom:20px;">
+    <input type="text" name="query" placeholder="Search by title, author, genre, year, barcode" autofocus required>
+    <button type="submit">🔍 Search</button>
+</form>
+
+{% if error %}
+<p style="color:red;">{{ error }}</p>
+{% endif %} -->
+
+<table>
+    <tr>
+        {% macro sort_link(label, field) %}
+            {% set new_order = "desc" if current_sort == field and current_order == "asc" else "asc" %}
+            <a href="{{ url_for('index', sort=field, order=new_order) }}">
+                {{ label }}
+                {% if current_sort == field %}
+                    {% if current_order == "asc" %}▲{% else %}▼{% endif %}
+                {% endif %}
+            </a>
+        {% endmacro %}
+
+        <th>{{ sort_link("Title", "title") }}</th>
+        <th>{{ sort_link("Author", "author") }}</th>
+        <th>{{ sort_link("Year", "year") }}</th>
+        <th>{{ sort_link("Genre", "genre") }}</th>
+        <th>{{ sort_link("Barcode", "barcode") }}</th>
+        <th>Delete</th>
+    </tr>
+
+    {% for book in books %}
+    <tr>
+        <td>
+            <a href="{{ url_for('book_history', book_id=book.id) }}">
+                {{ book.title }}
+            </a>
+        </td>
+        <td>
+			<a href="{{ url_for('search_books', query=book.author) }}">
+				{{ book.author }}
+			</a>
+		</td>
+        <td>{{ book.year_of_publication }}</td>
+        <td class="genre" data-value="{{book.genre }}">{{ book.genre }}</td>
+        <td>{{ book.barcode_number }}</td>
+        <td>
+            <form action="{{ url_for('delete_book', book_id=book.id) }}" method="POST">
+                <button type="submit" style="background:none;border:none;cursor:pointer;font-size:18px;">
+                    🗑️
+                </button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="#top" class="goto_top_link">^ Top</a>
+
+{% if error %}
+<p style="color:red;">{{ error }}</p>
+{% endif %}
+
+{% endblock %}
